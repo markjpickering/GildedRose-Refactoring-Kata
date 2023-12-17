@@ -52,12 +52,17 @@ public class App : IApp
         {
             Console.WriteLine("-------- day " + i + " --------");
             Console.WriteLine("name, sellIn, quality");
-            for (var j = 0; j < inventory.Items.Count; j++)
-            {
-                System.Console.WriteLine(inventory.Items[j]);
-            }
+            ConsoleWriteItems(inventory.Items);
             Console.WriteLine("");
             _inventoryService.UpdateQuality(inventory);
+        }
+    }
+
+    void ConsoleWriteItems(IEnumerable<Item> items)
+    {
+        foreach (var item in items)
+        {
+            Console.WriteLine(item);
         }
     }
 }
