@@ -49,17 +49,14 @@ public class InventoryService : IInventoryService
                 {
                     item.Quality = item.IncrQuality();
                 }
-
             }
         }
         else
         {
-            if (item.Quality > 0)
+
+            if (item.Name != "Sulfuras, Hand of Ragnaros")
             {
-                if (item.Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    item.Quality = item.DecrQuality();
-                }
+                item.Quality = item.DecrQuality();
             }
         }
 

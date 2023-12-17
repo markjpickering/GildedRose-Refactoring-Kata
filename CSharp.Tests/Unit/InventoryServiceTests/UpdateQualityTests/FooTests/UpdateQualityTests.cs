@@ -1,21 +1,23 @@
-﻿using GildedRose.Domain;
-using Xunit.Abstractions;
+﻿using GildedRose;
+using GildedRose.Domain;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CSharp.Tests.Unit.InventoryServiceTests.UpdateQualityTests.FooTests;
 
-public class UpdateQualityTests : TestBed<InventoryTestFixture>
+public class UpdateQualityTests : Testbase
 {
     public const string SomeRandomName = "foo";
 
     public IInventoryService _sut;
 
-    public UpdateQualityTests(ITestOutputHelper testOutputHelper, InventoryTestFixture fixture)
-        : base(testOutputHelper, fixture)
+    public UpdateQualityTests()
     {
-        var sut = _fixture.GetScopedService<IInventoryService>(_testOutputHelper);
-        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
-        _sut = sut;    }
+        var sut = ServiceProvider.GetRequiredService<IInventoryService>();
+        _sut = sut;
+    }
 
+    public override IServiceCollection CreateServices(IServiceCollection services) =>
+        AppDI.AddServices(services);
 
 
     [Fact]

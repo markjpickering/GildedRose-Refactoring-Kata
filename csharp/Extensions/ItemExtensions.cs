@@ -18,14 +18,14 @@ public static class ItemExtensions
         thisItem.Name == ItemNames.AgedBrie;
 
     public static int IncrQuality(this Item thisItem, int amount = 1) =>
-        thisItem.Quality + amount switch
+        (thisItem.Quality + amount) switch
         {
             > 50 => 50,
             _ => thisItem.Quality + amount,
         };
 
     public static int DecrQuality(this Item thisItem, int amount = 1) =>
-        thisItem.Quality - amount switch
+        (thisItem.Quality - amount) switch
         {
             0 => thisItem.Quality,
             < 0 => thisItem.Quality,

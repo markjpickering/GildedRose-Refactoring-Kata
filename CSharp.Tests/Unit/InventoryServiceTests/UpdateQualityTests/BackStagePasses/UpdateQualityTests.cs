@@ -1,19 +1,22 @@
-﻿using GildedRose.Domain;
-using Xunit.Abstractions;
+﻿using GildedRose;
+using GildedRose.Domain;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CSharp.Tests.Unit.InventoryServiceTests.UpdateQualityTests.BackStagePasses;
 
-public class UpdateQualityTests : TestBed<InventoryTestFixture>
+public class UpdateQualityTests : Testbase
 {
     public IInventoryService _sut;
 
-    public UpdateQualityTests(ITestOutputHelper testOutputHelper, InventoryTestFixture fixture)
-        : base(testOutputHelper, fixture)
+    public UpdateQualityTests()
     {
-        var sut = _fixture.GetScopedService<IInventoryService>(_testOutputHelper);
-        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+        var sut = ServiceProvider.GetRequiredService<IInventoryService>();
         _sut = sut;
     }
+
+    public override IServiceCollection CreateServices(IServiceCollection services) =>
+        AppDI.AddServices(services);
+
 
     [Fact]
     public void SellInMoreThan10_IncreaseQualityBy1()
