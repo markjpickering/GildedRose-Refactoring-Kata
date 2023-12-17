@@ -1,5 +1,4 @@
 ﻿using GildedRose.Domain;
-using GildedRose.Interfaces;
 
 namespace GildedRose.Facades.Items;
 
@@ -12,6 +11,7 @@ public class LegendaryItemFacade : ItemFacadeBase, IItemFacade
 
 
     public void UpdateQuality()
-    {        
+    {
+        Item.Quality = 80;
     }
 }

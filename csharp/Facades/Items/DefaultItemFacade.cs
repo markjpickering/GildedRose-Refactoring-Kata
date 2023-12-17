@@ -1,6 +1,4 @@
 ﻿using GildedRose.Domain;
-using GildedRose.Interfaces;
-
 namespace GildedRose.Facades.Items;
 
 public class DefaultItemFacade : ItemFacadeBase, IItemFacade
@@ -12,11 +10,17 @@ public class DefaultItemFacade : ItemFacadeBase, IItemFacade
 
     public void UpdateQuality()
     {
-        if (Item.SellIn > 0)
-            Item.Quality--;
-        else
-            Item.Quality -= 2;
+        Item.SellIn--;
 
-        EnsureQualityWithinBounds();
+        if (Item.IsQualityInRange())
+        {
+            if (Item.SellIn > 0)
+                Item.Quality--;
+            else
+                Item.Quality -= 2;
+        }
+
+        Item.Quality = Item.CorrectedQuality();
+
     }
 }

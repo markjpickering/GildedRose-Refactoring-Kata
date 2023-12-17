@@ -33,7 +33,7 @@ public static class ItemExtensions
             _ => thisItem.Quality - amount,
         };
 
-    public static int CorrectQuality(this Item thisItem) =>
+    public static int CorrectedQuality(this Item thisItem) =>
         (thisItem.Quality) switch
         {
             <= 0 => 0,

@@ -13,9 +13,16 @@ public class ConjuredItemFacade : ItemFacadeBase, IItemFacade
 
     public void UpdateQuality()
     {
-        if (Item.Quality > 0)
+        if (Item.IsQualityInRange())
         {
-            Item.Quality--;
+            if (Item.SellIn < 0)
+                Item.Quality = Item.DecrQuality(4);
+            else
+                Item.Quality = Item.DecrQuality(2);
         }
+
+        Item.SellIn--;
+
+        Item.Quality = Item.CorrectedQuality();
     }
 }

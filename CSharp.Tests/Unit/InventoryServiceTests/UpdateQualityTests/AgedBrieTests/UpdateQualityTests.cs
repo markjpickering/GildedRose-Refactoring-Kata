@@ -1,6 +1,5 @@
 ﻿using GildedRose;
 using GildedRose.Domain;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CSharp.Tests.Unit.InventoryServiceTests.UpdateQualityTests.AgedBrieTests;
 

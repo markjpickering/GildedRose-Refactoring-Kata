@@ -1,5 +1,4 @@
 ﻿using GildedRose.Domain;
-using GildedRose.Interfaces;
 
 namespace GildedRose.Facades.Items;
 
@@ -13,26 +12,27 @@ public class BackstagePassItemFacade : ItemFacadeBase, IItemFacade
 
     public void UpdateQuality()
     {
-        if (Item.Quality < 50)
+        if (Item.IsQualityInRange())
         {
-            Item.Quality++;
 
-            
+            Item.Quality = Item.IncrQuality();
+
             if (Item.SellIn < 11)
             {
-                if (Item.Quality < 50)
-                {
-                    Item.Quality++;
-                }
+                Item.Quality = Item.IncrQuality();
             }
 
             if (Item.SellIn < 6)
             {
-                if (Item.Quality < 50)
-                {
-                    Item.Quality++;
-                }
+                Item.Quality = Item.IncrQuality();
             }
         }
+
+        Item.SellIn--;
+
+        if (Item.SellIn < 0)
+            Item.Quality = 0;
+
+        Item.Quality = Item.CorrectedQuality();
     }
 }

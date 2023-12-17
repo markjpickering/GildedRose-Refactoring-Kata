@@ -15,7 +15,7 @@ public class InventoryService : IInventoryService
     {
         for (var i = 0; i < inventory.Items.Count; i++)
         {
-            UpdateItemQuality(inventory.Items[i]);
+            UpdateItemQualityNew(inventory.Items[i]);
         }
     }
 
@@ -109,7 +109,7 @@ public class InventoryService : IInventoryService
             }
         }
 
-        item.Quality = item.CorrectQuality();
+        item.Quality = item.CorrectedQuality();
     }
 
     private void UpdateItemQualityAgedBrie(Item item) 
@@ -124,7 +124,7 @@ public class InventoryService : IInventoryService
                 item.Quality = item.IncrQuality();
         }
 
-        item.Quality = item.CorrectQuality();
+        item.Quality = item.CorrectedQuality();
     }
 
     private void UpdateItemQualityBackstagePasses(Item item)
@@ -150,7 +150,7 @@ public class InventoryService : IInventoryService
         if (item.SellIn < 0)
             item.Quality = 0;
 
-        item.Quality = item.CorrectQuality();
+        item.Quality = item.CorrectedQuality();
     }
 
     private void UpdateItemQualitySulfuras(Item item)
@@ -170,6 +170,6 @@ public class InventoryService : IInventoryService
 
         item.SellIn--;
 
-        item.Quality = item.CorrectQuality();
+        item.Quality = item.CorrectedQuality();
     }
 }
