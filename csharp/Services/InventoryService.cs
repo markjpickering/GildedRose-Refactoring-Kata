@@ -45,6 +45,14 @@ public class InventoryService : IInventoryService
             return;
         }
 
+        if (item.IsConjuredItem())
+        {
+            UpdateItemQualityConjuredItem(item);
+            return;
+        }
+
+
+
         if (item.Name == "Aged Brie" || item.Name == "Backstage passes to a TAFKAL80ETC concert")
         {
             item.Quality = item.IncrQuality();
@@ -108,26 +116,33 @@ public class InventoryService : IInventoryService
     {
         item.SellIn--;
 
-        if (item.SellIn < 0)
-            item.Quality = item.IncrQuality(2);
-        else
-            item.Quality = item.IncrQuality();
+        if (item.IsQualityInRange())
+        {
+            if (item.SellIn < 0)
+                item.Quality = item.IncrQuality(2);
+            else
+                item.Quality = item.IncrQuality();
+        }
 
         item.Quality = item.CorrectQuality();
     }
 
     private void UpdateItemQualityBackstagePasses(Item item)
     {
-        item.Quality = item.IncrQuality();
-
-        if (item.SellIn < 11)
+        if (item.IsQualityInRange())
         {
-            item.Quality = item.IncrQuality();
-        }
 
-        if (item.SellIn < 6)
-        {
             item.Quality = item.IncrQuality();
+
+            if (item.SellIn < 11)
+            {
+                item.Quality = item.IncrQuality();
+            }
+
+            if (item.SellIn < 6)
+            {
+                item.Quality = item.IncrQuality();
+            }
         }
 
         item.SellIn--;
@@ -140,7 +155,21 @@ public class InventoryService : IInventoryService
 
     private void UpdateItemQualitySulfuras(Item item)
     {
-        item.SellIn -= 2;
+        item.Quality = 80;
+    }
+
+    private void UpdateItemQualityConjuredItem(Item item)
+    {
+        if (item.IsQualityInRange())
+        {
+            if (item.SellIn < 0)
+                item.Quality = item.DecrQuality(4);
+            else
+                item.Quality = item.DecrQuality(2);
+        }
+
+        item.SellIn--;
+
         item.Quality = item.CorrectQuality();
     }
 }

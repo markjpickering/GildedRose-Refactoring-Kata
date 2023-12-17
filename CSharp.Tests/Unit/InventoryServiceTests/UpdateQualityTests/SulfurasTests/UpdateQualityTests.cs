@@ -1,7 +1,5 @@
 ﻿using GildedRose;
 using GildedRose.Domain;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
 
 namespace CSharp.Tests.Unit.InventoryServiceTests.UpdateQualityTests.SulfurasTests;
 
@@ -20,40 +18,56 @@ public class UpdateQualityTests : Testbase
 
 
     [Fact]
-    public void DontChangeValidQuality()
+    public void QualityMustBe80()
     {
         // Arrange
         var inventory = new Inventory(
             new List<Item>
             {
-                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 10 },
-                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 50 }
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 49 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 50 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 51 },
+
+                new Item { Name = ItemNames.Sulfuras, SellIn = 1, Quality = 49 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 1, Quality = 50 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 1, Quality = 51 },
+
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 0 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = -1 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = -2 },
+
             });
 
         // Act
         _sut.UpdateQuality(inventory);
-
-        // Assert
-        inventory.Items[0].Quality.Should().Be(10);
-        inventory.Items[1].Quality.Should().Be(50);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 80);
     }
 
     [Fact]
-    public void QualityMustNeverBeGreaterThan50()
+    public void Sellin_MustRemainUnchanged()
     {
         // Arrange
         var inventory = new Inventory(
             new List<Item>
             {
-                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 50 },
-                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 51 },
-                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 52 }
+                new Item { Name = ItemNames.Sulfuras, SellIn = 0, Quality = 49 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 1, Quality = 50 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 2, Quality = 51 },
+
+                new Item { Name = ItemNames.Sulfuras, SellIn = 3, Quality = 49 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 4, Quality = 50 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = 5, Quality = 51 },
+                new Item { Name = ItemNames.Sulfuras, SellIn = -1, Quality = 53 }
             });
 
         // Act
         _sut.UpdateQuality(inventory);
-
-        // Assert
-        inventory.Items.Should().OnlyContain(item => item.Quality == 50);
+        inventory.Items[0].SellIn.Should().Be(0);
+        inventory.Items[1].SellIn.Should().Be(1);
+        inventory.Items[2].SellIn.Should().Be(2);
+        inventory.Items[3].SellIn.Should().Be(3);
+        inventory.Items[4].SellIn.Should().Be(4);
+        inventory.Items[5].SellIn.Should().Be(5);
+        inventory.Items[6].SellIn.Should().Be(-1);
     }
 }

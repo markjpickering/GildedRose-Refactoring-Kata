@@ -71,4 +71,31 @@ public class UpdateQualityTests : Testbase
         _sut.UpdateQuality(inventory);
         inventory.Items.Should().OnlyContain(item => item.Quality == 50);
     }
+
+
+    [Fact]
+    public void Sellin_MustBeDecremented()
+    {
+        // Arrange
+        var inventory = new Inventory(
+            new List<Item>
+            {
+                new Item { Name = ItemNames.AgedBrie, SellIn = 0, Quality = 49 },
+                new Item { Name = ItemNames.AgedBrie, SellIn = 1, Quality = 50 },
+                new Item { Name = ItemNames.AgedBrie, SellIn = 2, Quality = 51 },
+
+                new Item { Name = ItemNames.AgedBrie, SellIn = 3, Quality = 49 },
+                new Item { Name = ItemNames.AgedBrie, SellIn = 4, Quality = 50 },
+                new Item { Name = ItemNames.AgedBrie, SellIn = 5, Quality = 51 }
+            });
+
+        // Act
+        _sut.UpdateQuality(inventory);
+        inventory.Items[0].SellIn.Should().Be(-1);
+        inventory.Items[1].SellIn.Should().Be(0);
+        inventory.Items[2].SellIn.Should().Be(1);
+        inventory.Items[3].SellIn.Should().Be(2);
+        inventory.Items[4].SellIn.Should().Be(3);
+        inventory.Items[5].SellIn.Should().Be(4);
+    }
 }
