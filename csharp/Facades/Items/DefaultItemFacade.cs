@@ -15,9 +15,9 @@ public class DefaultItemFacade : ItemFacadeBase, IItemFacade
         if (Item.IsQualityInRange())
         {
             if (Item.SellIn > 0)
-                Item.Quality--;
+                Item.Quality = Item.DecrQuality();
             else
-                Item.Quality -= 2;
+                Item.Quality = Item.DecrQuality(2);
         }
 
         Item.Quality = Item.CorrectedQuality();
