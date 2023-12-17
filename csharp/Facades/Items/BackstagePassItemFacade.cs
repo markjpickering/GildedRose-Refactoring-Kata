@@ -14,7 +14,6 @@ public class BackstagePassItemFacade : ItemFacadeBase, IItemFacade
     {
         if (Item.IsQualityInRange())
         {
-
             Item.Quality = Item.IncrQuality();
 
             if (Item.SellIn < 11)
