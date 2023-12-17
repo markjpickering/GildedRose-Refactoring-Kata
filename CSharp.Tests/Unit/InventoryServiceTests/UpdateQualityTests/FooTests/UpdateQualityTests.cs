@@ -70,6 +70,6 @@ public class UpdateQualityTests : Testbase
 
         // Act
         _sut.UpdateQuality(inventory);
-        inventory.Items.All(item => item.Quality == 0);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 0);
     }
 }

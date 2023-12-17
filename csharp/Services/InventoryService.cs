@@ -27,12 +27,23 @@ public class InventoryService : IInventoryService
 
     private void UpdateItemQuality(Item item)
     {
-//        if(item.Name == "Aged Brie")
-//        {
-//            UpdateItemQualityAgedBrie(item);
-//            return;
-//        }
+        if(item.Name == "Aged Brie")
+        {
+            UpdateItemQualityAgedBrie(item);
+            return;
+        }
 
+        if(item.Name == "Backstage passes to a TAFKAL80ETC concert")
+        {
+            UpdateItemQualityBackstagePasses(item);
+            return;
+        }
+
+        if (item.Name == "Sulfuras, Hand of Ragnaros")
+        {
+            UpdateItemQualitySulfuras(item);
+            return;
+        }
 
         if (item.Name == "Aged Brie" || item.Name == "Backstage passes to a TAFKAL80ETC concert")
         {
@@ -89,24 +100,47 @@ public class InventoryService : IInventoryService
                 }
             }
         }
+
+        item.Quality = item.CorrectQuality();
     }
 
     private void UpdateItemQualityAgedBrie(Item item) 
     {
-        item.Quality = item.Quality + 1;
+        item.SellIn--;
 
-        if (item.SellIn < 0 && item.Quality < 50)
-        {
-            item.Quality++;
-        }
+        if (item.SellIn < 0)
+            item.Quality = item.IncrQuality(2);
+        else
+            item.Quality = item.IncrQuality();
 
+        item.Quality = item.CorrectQuality();
     }
 
     private void UpdateItemQualityBackstagePasses(Item item)
     {
+        item.Quality = item.IncrQuality();
+
+        if (item.SellIn < 11)
+        {
+            item.Quality = item.IncrQuality();
+        }
+
+        if (item.SellIn < 6)
+        {
+            item.Quality = item.IncrQuality();
+        }
+
+        item.SellIn--;
+
+        if (item.SellIn < 0)
+            item.Quality = 0;
+
+        item.Quality = item.CorrectQuality();
     }
 
-    private void Sulfuras(Item item)
+    private void UpdateItemQualitySulfuras(Item item)
     {
+        item.SellIn -= 2;
+        item.Quality = item.CorrectQuality();
     }
 }

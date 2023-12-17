@@ -11,18 +11,12 @@ public class AgedBrieItemFacade : ItemFacadeBase, IItemFacade
     }
 
     public void UpdateQuality()
-    {
-        if (Item.Quality < 50)
-        {
-            Item.Quality++;
-        }
+    {       
+        Item.SellIn--;
 
         if (Item.SellIn < 0)
-        {
-            if (Item.Quality < 50)
-            {
-                Item.Quality++;
-            }
-        }
+            Item.Quality = Item.IncrQuality(2);
+        else
+            Item.Quality = Item.IncrQuality();
     }
 }

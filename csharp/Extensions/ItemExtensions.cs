@@ -1,5 +1,4 @@
-﻿using GildedRose.Constants;
-using GildedRose.Domain;
+﻿using GildedRose.Domain;
 
 namespace GildedRose.Extensions;
 
@@ -27,8 +26,15 @@ public static class ItemExtensions
     public static int DecrQuality(this Item thisItem, int amount = 1) =>
         (thisItem.Quality - amount) switch
         {
-            0 => thisItem.Quality,
-            < 0 => thisItem.Quality,
+            <= 0 => 0,
             _ => thisItem.Quality - amount,
+        };
+
+    public static int CorrectQuality(this Item thisItem) =>
+        (thisItem.Quality) switch
+        {
+            <= 0 => 0,
+            > 50 => 50,
+            _ => thisItem.Quality,
         };
 }

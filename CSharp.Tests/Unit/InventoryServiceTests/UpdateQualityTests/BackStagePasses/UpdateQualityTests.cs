@@ -34,7 +34,7 @@ public class UpdateQualityTests : Testbase
         _sut.UpdateQuality(inventory);
 
         // Assert
-        inventory.Items.All(item => item.Quality == 11);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 11);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class UpdateQualityTests : Testbase
         _sut.UpdateQuality(inventory);
 
         // Assert
-        inventory.Items.All(item => item.Quality == 12);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 12);
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public class UpdateQualityTests : Testbase
         _sut.UpdateQuality(inventory);
 
         // Assert
-        inventory.Items.All(item => item.Quality == 13);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 13);
     }
 
 
@@ -105,17 +105,17 @@ public class UpdateQualityTests : Testbase
         var inventory = new Inventory(
             new List<Item>
             {
-                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 0, Quality = 49 },
-                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 0, Quality = 50 },
-                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 0, Quality = 51 },
-
                 new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 1, Quality = 49 },
                 new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 1, Quality = 50 },
-                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 1, Quality = 51 }
+                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 1, Quality = 51 },
+
+                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 2, Quality = 49 },
+                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 2, Quality = 50 },
+                new Item { Name = ItemNames.TAFKAL80ETBackstage, SellIn = 2, Quality = 51 }
             });
 
         // Act
         _sut.UpdateQuality(inventory);
-        inventory.Items.All(item => item.Quality == 50);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 50);
     }
 }

@@ -69,6 +69,6 @@ public class UpdateQualityTests : Testbase
 
         // Act
         _sut.UpdateQuality(inventory);
-        inventory.Items.All(item => item.Quality == 50);
+        inventory.Items.Should().OnlyContain(item => item.Quality == 50);
     }
 }
