@@ -21,6 +21,5 @@ public class DefaultItemFacade : ItemFacadeBase, IItemFacade
         }
 
         Item.Quality = Item.CorrectedQuality();
-
     }
 }
