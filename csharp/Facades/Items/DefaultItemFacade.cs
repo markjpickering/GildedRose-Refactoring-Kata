@@ -13,7 +13,7 @@ public class DefaultItemFacade : ItemFacadeBase, IItemFacade
     public void UpdateQuality()
     {
         if (Item.SellIn > 0)
-            Item.Quality -= 1;
+            Item.Quality--;
         else
             Item.Quality -= 2;
 

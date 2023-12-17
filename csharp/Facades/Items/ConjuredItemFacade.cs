@@ -13,6 +13,9 @@ public class ConjuredItemFacade : ItemFacadeBase, IItemFacade
 
     public void UpdateQuality()
     {
-        throw new System.NotImplementedException();
+        if (Item.Quality > 0)
+        {
+            Item.Quality--;
+        }
     }
 }

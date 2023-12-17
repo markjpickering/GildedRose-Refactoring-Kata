@@ -13,6 +13,26 @@ public class BackstagePassItemFacade : ItemFacadeBase, IItemFacade
 
     public void UpdateQuality()
     {
-        throw new System.NotImplementedException();
+        if (Item.Quality < 50)
+        {
+            Item.Quality++;
+
+            
+            if (Item.SellIn < 11)
+            {
+                if (Item.Quality < 50)
+                {
+                    Item.Quality++;
+                }
+            }
+
+            if (Item.SellIn < 6)
+            {
+                if (Item.Quality < 50)
+                {
+                    Item.Quality++;
+                }
+            }
+        }
     }
 }

@@ -1,19 +1,19 @@
 ﻿using GildedRose.Domain;
-using GildedRose.Interfaces;
-using GildedRose.Services;
+using Xunit.Abstractions;
 
 namespace CSharp.Tests.Unit.InventoryServiceTests.UpdateQualityTests.SulfurasTests;
 
-public class UpdateQualityTests
+public class UpdateQualityTests : TestBed<InventoryTestFixture>
 {
-
     public IInventoryService _sut;
 
-    public UpdateQualityTests()
+    public UpdateQualityTests(ITestOutputHelper testOutputHelper, InventoryTestFixture fixture)
+        : base(testOutputHelper, fixture)
     {
-        _sut = new InventoryService();
+        var sut = _fixture.GetScopedService<IInventoryService>(_testOutputHelper);
+        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+        _sut = sut;
     }
-
 
     [Fact]
     public void DontChangeValidQuality()

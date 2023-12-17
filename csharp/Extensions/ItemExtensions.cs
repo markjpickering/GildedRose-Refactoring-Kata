@@ -16,4 +16,19 @@ public static class ItemExtensions
 
     public static bool IsAgedBrie(this Item thisItem) =>
         thisItem.Name == ItemNames.AgedBrie;
+
+    public static int IncrQuality(this Item thisItem, int amount = 1) =>
+        thisItem.Quality + amount switch
+        {
+            > 50 => 50,
+            _ => thisItem.Quality + amount,
+        };
+
+    public static int DecrQuality(this Item thisItem, int amount = 1) =>
+        thisItem.Quality - amount switch
+        {
+            0 => thisItem.Quality,
+            < 0 => thisItem.Quality,
+            _ => thisItem.Quality - amount,
+        };
 }

@@ -1,11 +1,16 @@
 ﻿using GildedRose.Domain;
-using GildedRose.Interfaces;
-using System.Runtime.CompilerServices;
 
 namespace GildedRose.Services;
 
 public class InventoryService : IInventoryService
 {
+    private IItemFacadeFactory _itemFacadeFactory;
+
+    public InventoryService(IItemFacadeFactory itemFacadeFactory)
+    {
+        _itemFacadeFactory = itemFacadeFactory;
+    }
+
     public void UpdateQuality(Inventory inventory)
     {
         for (var i = 0; i < inventory.Items.Count; i++)
@@ -14,32 +19,37 @@ public class InventoryService : IInventoryService
         }
     }
 
+    private void UpdateItemQualityNew(Item item)
+    {
+        var itemFacade = _itemFacadeFactory.CreateItemFacade(item);
+        itemFacade.UpdateQuality();
+    }
+
     private void UpdateItemQuality(Item item)
     {
+//        if(item.Name == "Aged Brie")
+//        {
+//            UpdateItemQualityAgedBrie(item);
+//            return;
+//        }
+
+
         if (item.Name == "Aged Brie" || item.Name == "Backstage passes to a TAFKAL80ETC concert")
         {
-            if (item.Quality < 50)
+            item.Quality = item.IncrQuality();
+
+            if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
             {
-                item.Quality = item.Quality + 1;
-
-                if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                if (item.SellIn < 11)
                 {
-                    if (item.SellIn < 11)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality = item.Quality + 1;
-                        }
-                    }
-
-                    if (item.SellIn < 6)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality = item.Quality + 1;
-                        }
-                    }
+                    item.Quality = item.IncrQuality();
                 }
+
+                if (item.SellIn < 6)
+                {
+                    item.Quality = item.IncrQuality();
+                }
+
             }
         }
         else
@@ -48,14 +58,14 @@ public class InventoryService : IInventoryService
             {
                 if (item.Name != "Sulfuras, Hand of Ragnaros")
                 {
-                    item.Quality = item.Quality - 1;
+                    item.Quality = item.DecrQuality();
                 }
             }
         }
 
         if (item.Name != "Sulfuras, Hand of Ragnaros")
         {
-            item.SellIn = item.SellIn - 1;
+            item.SellIn--;
         }
 
 
@@ -63,29 +73,43 @@ public class InventoryService : IInventoryService
         {
             if (item.Name == "Aged Brie")
             {
-                if (item.Quality < 50)
-                {
-                    item.Quality = item.Quality + 1;
-                }
+                item.Quality = item.IncrQuality();
 
             }
             else
             {
                 if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
                 {
-                    item.Quality = item.Quality - item.Quality;
+                    item.Quality = 0;
                 }
                 else
                 {
-                    if (item.Quality > 0)
+                    if (item.Name != "Sulfuras, Hand of Ragnaros")
                     {
-                        if (item.Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            item.Quality = item.Quality - 1;
-                        }
+                        item.Quality = item.DecrQuality();
                     }
+
                 }
             }
         }
+    }
+
+    private void UpdateItemQualityAgedBrie(Item item) 
+    {
+        item.Quality = item.Quality + 1;
+
+        if (item.SellIn < 0 && item.Quality < 50)
+        {
+            item.Quality++;
+        }
+
+    }
+
+    private void UpdateItemQualityBackstagePasses(Item item)
+    {
+    }
+
+    private void Sulfuras(Item item)
+    {
     }
 }

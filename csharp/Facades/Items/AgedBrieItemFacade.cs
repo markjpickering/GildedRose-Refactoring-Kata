@@ -12,6 +12,17 @@ public class AgedBrieItemFacade : ItemFacadeBase, IItemFacade
 
     public void UpdateQuality()
     {
-        throw new System.NotImplementedException();
+        if (Item.Quality < 50)
+        {
+            Item.Quality++;
+        }
+
+        if (Item.SellIn < 0)
+        {
+            if (Item.Quality < 50)
+            {
+                Item.Quality++;
+            }
+        }
     }
 }

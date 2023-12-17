@@ -4,16 +4,19 @@ using GildedRose.Services;
 
 namespace CSharp.Tests.Unit.InventoryServiceTests.UpdateQualityTests.ConjuredTests;
 
-public class UpdateQualityTests
+/*
+public class UpdateQualityTests : TestBed<InventoryTestFixture>
 {
-    /*
+    
     public IInventoryService _sut;
 
-    public UpdateQualityTests()
+    public UpdateQualityTests(ITestOutputHelper testOutputHelper, InventoryTestFixture fixture)
+        : base(testOutputHelper, fixture)
     {
-        _sut = new InventoryService();
+        var sut = _fixture.GetScopedService<IInventoryService>(_testOutputHelper);
+        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+        _sut = sut;
     }
-
 
     [Fact]
     public void WhenBeforeSellByDate_DecrementQualityBy1()
@@ -67,5 +70,4 @@ public class UpdateQualityTests
         _sut.UpdateQuality(inventory);
         inventory.Items.All(item => item.Quality == 0);
     }
-    */
-}
+*/
